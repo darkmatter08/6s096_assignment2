@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <ostream>
 #include <iostream>
+#include <cmath>
 
 // Implement this
 const Rational Rational::inverse() const {
@@ -51,6 +52,16 @@ std::ostream& operator<<( std::ostream &os, const Rational &ratio ) {
  */
 void Rational::normalize() {
   // You should implement
+  intmax_t divide_by = gcd(std::abs(_num), std::abs(_den));
+  _num /= divide_by;
+  _den /= divide_by;
+  if (_den < 0 && _num < 0) {
+    _num = std::abs(_num);
+    _den = std::abs(_den);
+  } else if (_den < 0) {
+    _num *= -1;
+    _den = std::abs(_den);
+  }
 }
 
 // Return the float precision number corresponding to the Rational

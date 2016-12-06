@@ -5,8 +5,11 @@
 
 int main() {
   auto a = Rational{ 1, 3 }; // the number 1/3
+  std::cout << "a = " << a << std::endl;
   auto b = Rational{ -6, 7 }; // the number -6/7
+  std::cout << "b = " << b << std::endl;
   std::cout << a << " * " << b << " = " << a * b << "\n";
+
   std::cout << "Now for something more complicated...\n";
   std::cout << "a / ( a + b / a ) = " << a / ( a + b / a ) << "\n";
 
