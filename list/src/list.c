@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 struct List_node_s {
   List_node *next;
@@ -28,6 +29,17 @@ void list_append( List *list, int value ) {
    * list_append( list, 9 ); results in
    * { 5 -> 10 -> 9 }
    */
+  assert(list);
+  if(!(list->front)) {
+    list->front = create_node(value);
+    return;
+  }
+  List_node* current = list->front;
+  while(current->next) {
+    current = current->next;
+  }
+  assert(!(current->next)); // at this point, current->next is null
+  current->next = create_node(value);
 }
 
 // Implement this
@@ -43,6 +55,25 @@ void list_insert_before( List *list, int insert, int before ) {
    * NOTE: if the value 'before' does not exist in 'list', this
    * function should not modify the list or append anywhere.
    */
+  assert(list);
+  assert(list->front);
+  List_node* current = list->front;
+  if(current->value == before){
+    //insert_before
+    List_node* new_node = create_node(insert);
+    new_node->next = current;
+    list->front = new_node;
+    return;
+  }
+  List_node* next = current->next;
+  while(next) {
+    if(next->value == before) {
+      current->next = create_node(insert);
+      current->next->next = next;
+      return;
+    }
+    next = next->next;
+  }
 }
 
 // Implement this
@@ -54,6 +85,21 @@ void list_delete( List *list, int value ) {
    * If there are no values to delete, the function should
    * do nothing.
    */
+  assert(list);
+  List_node* current = list->front;
+  if(current->value == value) {
+    list->front = current->next; // this may assign null.
+    current = list->front;
+  }
+  // case when two matches lead the list?
+  List_node* next = current->next;
+  while(next){
+    if(next->value == value) {
+      current->next = next->next;
+    }
+    next = next->next;
+  }
+  return;
 }
 
 // Implement this
@@ -68,6 +114,24 @@ void list_apply( List *list, int (*function_ptr)(int) ) {
    * call to list_apply( list, sq );
    * results in { 1 -> 4 -> 9 }
    */
+  assert(list);
+  assert(function_ptr);
+
+  List_node* current = list->front;
+  assert(current);
+  /*
+  current->value = function_ptr(current->value);
+
+  List_node* next = current->next;
+  while(next) {
+    next->value = function_ptr(next->value);
+    next = next->next;
+  }
+  */
+  while(current) {
+    current->value = function_ptr(current->value);
+    current = current->next;
+  }
 }
 
 int list_reduce( List *list, int (*function_ptr)(int, int) ) {
@@ -84,6 +148,9 @@ int list_reduce( List *list, int (*function_ptr)(int, int) ) {
    * you should return 0; if the list has only one
    * element, return the value of that element.
    */
+  assert(list);
+  assert(function_ptr);
+  int result = 0;
   return result;
 }
 
