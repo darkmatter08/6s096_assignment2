@@ -28,11 +28,11 @@ public:
 std::ostream& operator<<( std::ostream &os, const Rational &ratio );
 
 inline bool operator==( const Rational &lhs, const Rational &rhs ) {
-  // You should implement
+  return (lhs.num() == rhs.num()) && (lhs.den() == rhs.den()); // assuming normalized!
 }
 
 inline bool operator<( const Rational &lhs, const Rational &rhs ) {
-  // You should implement
+  return lhs.to_double() < rhs.to_double();
 }
 
 // This one is completed for you. We multiply two Rationals
@@ -48,16 +48,19 @@ inline Rational operator*( const Rational &a, const Rational &b ) {
   return Rational{ a.num() * b.num(), a.den() * b.den() };
 }
 
+// (a/b) + (c/d) = (a*d + c*b)/ (b*d)
 inline Rational operator+( const Rational &a, const Rational &b ) {
-  // You should implement
+  return Rational{ (a.num() * b.den()) + (b.num() * a.den()), (a.den() * b.den()) };
 }
 
+// (a/b) - (c/d) = (a*d - c*b)/ (b*d)
 inline Rational operator-( const Rational &a, const Rational &b ) {
-  // You should implement
+  return Rational { (a.num() * b.den()) - (b.num() * a.den()), (a.den() * b.den()) };
 }
 
+// (a/b) / (c/d) = (a/b * d/c)
 inline Rational operator/( const Rational &a, const Rational &b ) {
-  // You should implement
+  return Rational{ a.num() * b.den(), a.den() * b.num() };
 }
 
 class bad_rational : public std::domain_error {

@@ -8,11 +8,17 @@
 // Implement this
 const Rational Rational::inverse() const {
   /* Return the Rational number 1 / current rational */
+  return Rational{_den, _num};
 }
 
 // Implement this
 Rational::sign_type Rational::sign() const {
   /* Return, as a sign_type, the sign of the Rational */
+  if (_num < 0) {
+    return Rational::NEGATIVE;
+  } else {
+    return Rational::POSITIVE;
+  }
 }
 
 /* Print the value num/den to the supplied output stream, or 0 if 
@@ -49,10 +55,10 @@ void Rational::normalize() {
 
 // Return the float precision number corresponding to the Rational
 float Rational::to_float() const {
-  // You should implement
+  return (float) to_double();
 }
 
 // Return the double precision number corresponding to the Rational
 double Rational::to_double() const {
-  // You should implement
+  return ((double) _num) / ((double) _den);
 }
